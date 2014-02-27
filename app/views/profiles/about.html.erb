@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+<link href="/assets/about.css" media="screen" rel="stylesheet" type="text/css" />	
+<div id="container_box">	
+		<div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">  
+            		<ul class="nav nav-tabs" >
+                        <li class="active" style="width: 158px; text-align: center;"><%= link_to 'About', :controller => "profiles", :action => "about", :id => @profile.user_id%></li>                
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Posts', :controller => "profiles", :action => "my_posts", :id => @profile.user_id%></li>
+
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Photos', :controller => "profiles", :action => "photos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Videos', :controller => "profiles", :action => "videos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Events', :controller => "profiles", :action => "events", :id => @profile.user_id%></li>
+                    </ul>    
+    	</div>
+    	<div class="span12">
+        <div class="container_box" style="margin-right:20px;">
+    	  	<div>
+            <% if current_user.id==@profile.user_id%>
+    	  	    <div>
+                <%= link_to 'Edit', profile_form_profiles_path, :style=>"float: right;margin-top:-20px;margin-right: 30px;"%>
+              </div>
+            <%end%> 
+          </div>     
+    	  	<div class="well" style="margin-top:10px;">    	  		
+				
+            <div id="profile" >
+				      <div style="float:right;">
+                <% if @profile.image_url.nil?%>
+                  <img src="http://critterapp.pagodabox.com/img/user.jpg" alt="" style="margin-right: 10px;margin-left: 20px;width:120px;height:120px;">
+                <% else%>
+                  <%= image_tag @profile.image_url(:thumb).to_s, :style=>"margin-right: 10px;margin-left: 20px;width:120px;height:120px;"%>
+                <% end%>
+              </div>
+              <div style="float:left;">
+                <% if @profile.first_name.nil?%>
+                  <h2>User</h2>
+                <% else%>
+                  <h2><%= @profile.first_name%>&nbsp<%= @profile.last_name%></h2>
+                <%end%>
+                <a><%= @user.email%></a>
+              </div>
+            </div>
+            <div style="margin-top: 90px;margin-left: -20px;">
+    				<table cellpadding="10px">    
+              <tr>
+              <td> Gender </td>              
+              <td><%= @profile.gender%></td>
+            </tr>
+            <tr>
+              <td>Place</td>
+              <td ><%= @profile.place %></td>
+              </tr>
+              <tr> 
+      		    <td>Date of Birth</td>
+              <% if ((@profile.date_of_birth.nil?)||(@profile.date_of_birth==""))%>
+                <td><%= @profile.date_of_birth%></td>
+              <% else%>
+                <td><%= @profile.date_of_birth.to_date.strftime("%B %d, %Y")%></td>
+              <% end%>
+            </tr>
+            </table>
+     				</div>
+
+    		  
+        </div>
+      </div>
+
+    	</div>
+    </div>
+</html>
+

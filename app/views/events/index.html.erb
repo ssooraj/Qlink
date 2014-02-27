@@ -1,0 +1,62 @@
+<html>
+<link href="/assets/events.css" media="screen" rel="stylesheet" type="text/css" />
+
+<body>
+  <div id="container_box">
+
+     <div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">
+          
+            <ul class="nav nav-tabs">
+              <li style="width: 259px; text-align: center;"> <%= link_to "LIST", firstpage_events_path%></li>
+              <li class= "active" style="width: 259px; text-align: center;"><%= link_to "NEW EVENT", events_path %></li>
+              <li style="width: 259px; text-align: center;"> <%= link_to "CALENDAR", showcalender_events_path%></li>
+   </ul>
+  </div>
+
+  <div style="float:left;">
+
+  <fieldset style="margin-left: 230px;margin-top: 40px;">  
+
+      <%= form_for :event, url: { action: 'save_event', controller: "events", method: :post} do |f| %>
+      
+      <div class="control-group">
+         <%=f.label :title ,:class=>"control-label" %>
+         <div class="controls">
+         <%=f.text_field :title ,:autofocus => true, :id=>"textinput", :class=>"input-xlarge" %>
+        </div>
+      </div>
+	    
+      <div class="control-group">
+         <%=f.label :description , :class=>"control-label"%>
+         <div class="controls">
+         <%=f.text_area :description, :rows => 4, :cols => 30 ,:id=>"textarea"%>
+         </div>
+      </div>
+	    
+      <div class="control-group">
+
+  		   <%=f.label :starttime, 'Start Date', :class=>"control-label" %>
+          <div class="controls">
+  		    <%=f.text_field :start, 'data-behaviour' => 'datepicker'%>
+
+          </div>
+      </div>
+
+	    <div class="control-group">
+          <%=f.label :endtime, 'End Date', :class=>"control-label" %>
+          <div class="controls">
+
+          <%=f.text_field :endtime, 'data-behaviour' => 'datepicker'%>
+
+          </div>
+      </div>
+      <%= f.submit(type: 'submit', :class=>"btn btn-primary", :value => "SUBMIT")  %>
+  <% end %>
+</fieldset>
+
+
+
+ </div>
+</div>
+ </body>  
+</html>

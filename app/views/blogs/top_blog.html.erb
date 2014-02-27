@@ -1,0 +1,104 @@
+ 
+ <link href="/assets/blogs.css" media="screen" rel="stylesheet" type="text/css" />
+ <script src="js/jquery-1.9.1.min.js"></script>
+ <script src="js/select2.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="css/select2.css"/> 
+ <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> 
+ <link rel="stylesheet" type="text/css" href="../select2-bootstrap.css"/>
+
+    <div id="form_box">
+    <h4 style="margin-left: 200px;">New Blog</h4>
+
+     
+      <fieldset style="margin-left: 200px;margin-top: 20px;">  
+      <%= form_for :blog, :url => {:controller => 'blogs', :action => 'create'} do |f| %>
+
+      <div class="control-group">
+         <%=f.label :blog_header ,:class=>"control-label" %>
+         <div class="controls">
+         <%=f.text_field :title ,:autofocus => true, :id=>"textinput", :class=>"input-xlarge" %>
+        </div>
+      </div>
+      
+      <div class="control-group">
+         <%=f.label :content , :class=>"control-label"%>
+         <div class="controls">
+         <%=f.text_area :content, :rows => 4, :cols => 30 ,:id=>"textarea", :class=>"input-xlarge"%>
+         </div>
+      </div>
+      
+       
+    <div class="control-group">
+    <%=f.label :Image , :class=>"control-label"%>
+   
+              <div class="controls"> 
+                <%= f.file_field :image ,:class=>"control-label", :id=>"textinput", :class=>"input-xlarge" %>
+              </div>
+   
+      </div>
+      <div class="control-group">
+         <%=f.label :tag ,:class=>"control-label" %>
+         <div class="controls">
+         <%= f.select(:tag, ['Personal', 'Tech','News', 'Occupation'],:id=>"multiple",:class=>"select2", :multiple=>"multiple" ,:style=>"width:200px" ) %>
+        </div>
+      </div>
+        
+      <%= f.submit "Post", 'class'=>"btn btn-primary"%> 
+
+      <% end %>
+    
+</div>
+<script>
+  $('.select2').select2({ placeholder : '' });
+</script>
+
+<% if @blogs_all.empty?%>
+<%else%>
+<div id ="Question">
+
+<div class="span12">  
+    <ul class="nav nav-tabs" >
+         
+          <li class="active"  style="width: 267px; text-align: center;font-size:15px;"><%= link_to 'Top Blogs', top_blog_blogs_path%></li>
+         <li   style="width: 267px; text-align: center;font-size:15px;"><%= link_to 'Latest Blogs', latest_blog_blogs_path%></li>
+         <li   style="width: 266px; text-align: center;font-size:15px;"><%= link_to 'My Blogs',  my_blog_blogs_path%></li>  
+    </ul>   
+</div>
+
+<br><br><br>
+
+    <%@blogs_all.each  do |blog| %>
+    <div style =" border:2px solid #e3e3e3;">
+            <% user=Profile.find_by_user_id(blog.user_id)%>
+            <h4 style = "margin-left:20px;margin-right:20px;"><strong><h4> <%= link_to blog.title, {:controller => "blogs", :action => "view_blog", :id => blog.id }%></h4></strong></h4>
+            <div style="float: right;font-size: 9pt;color:#4682B4;margin-right:20px;margin-top:-30px;"><i class="icon-calendar"></i> Posted <%= blog.created_at.to_date.strftime("%B %d, %Y") %></div>
+          <% if blog.image_url.nil?%>
+         
+          <%else%> 
+          <div class="span2">
+            <a href="#" class="thumbnail">
+            <%= image_tag blog.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:100px;height:50px;" if blog.image?  %>
+            </a>
+          </div>
+        </br></br></br></br>
+          <% end%>
+        
+            <p style = "margin-left:20px;margin-right:20px;font-size:11pt;"><%= blog.content %> </p> 
+            <div class= "well" style = "margin-top:20px;margin-left:20px;margin-right:20px;height:20px;">
+          <div style = "height:20px;font-size:10px;color:#4682B4;margin-left:-12px;">
+                    <% if user.image_url.nil?%>
+                         <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+                        <% else%> <div style="margin-top:-12px;float:left;">
+                          <%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        </div>
+                        <% end%><%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => blog.user_id }%> 
+                   | <i class="icon-share"></i> <%= blog.kudos%> Kudos
+                   | <i class="icon-tags"></i> Tags : <%= link_to blog.tag, {:controller => "blogs", :action => "list_by_tags", :tag => blog.tag } , :class => "label label-info" %> 
+       </div>             
+    </div>
+    </div></br>     
+    <%end%>  
+
+</div>
+
+<% end%>

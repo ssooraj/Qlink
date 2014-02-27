@@ -1,0 +1,67 @@
+
+ <link href="/assets/discussions.css" media="screen" rel="stylesheet" type="text/css" />
+<div id ="show">
+<div class="well">
+<div id="insideShow">
+ <h4><strong><%= link_to @discussion.title, {:controller => "discussions", :action => "view_disc", :id => @discussion.id }%></strong></h4><div style="float: right;font-size: 9pt;color:#4682B4;margin-right:20px;margin-top:-30px;"><i class="icon-calendar"></i> Posted <%= @discussion.created_at.to_date.strftime("%B %d, %Y") %></div>
+     <%user=Profile.find_by_user_id(@discussion.user_id)%>       
+     <% @answer_count = Answer.where(:discussion_id => params[:id]).count %>
+            <div class="span6">      
+                <p><%= @discussion.content %></p>
+            </div>
+                    <br> <br> <br> 
+                    <p>
+                       <% if user.image_url.nil?%>
+                       <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+                        <% else%><div style = "height:20px;font-size:10px;color:#4682B4;margin-left:-12px;"><%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:40px;height:40px;"%></div>
+                        <% end%><div style = "height:20px;font-size:10px;color:#4682B4;padding-left:28px;">
+                       <%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => @discussion.user_id }%>
+          | <i class="icon-comment"></i> <%= @answer_count %> Answers
+          |<% @kudos_given=KudosToDiscussion.find_by_user_id_and_discussion_id(current_user.id, @discussion.id)%>
+                            <% if @kudos_given.nil?%>
+                            <a style="text-decoration:none;margin-left:10px;"><i class="icon-thumbs-up"></i> <%= link_to 'Kudos', :controller=>"discussions", :action=>"kudos_to_discussion", :id=>@discussion.id%> </a> 
+                            <% else%>
+                            <i style="text-decoration:none;margin-left:10px;" class="icon-thumbs-up"></i> Kudos Given
+                            <% end%>
+                        |   <%= @discussion.kudos%> Kudos <i class="icon-thumbs-up"></i>
+          | <i class="icon-tags"></i> Tags : <%= link_to @discussion.tag, {:controller => "discussions", :action => "list_by_tags", :tag => @discussion.tag } , :class => "label label-info" %>         
+          |<% if @discussion.user_id==current_user.id%>
+
+                            <%= link_to content_tag('i', '', class: 'icon-trash'), discussion_path(@discussion.id), confirm: "Are you sure you want to delete ?", method: :delete%>
+                            <%end%> 
+ </div>
+ </div>
+</div>
+ </div> 
+ <div id = "answer">
+    <h4 style="margin-bottom: 0px;">Answers</h4>   
+    <hr>
+     <% @answers.each do |answer| %>
+        <%user=Profile.find_by_user_id(answer.user_id)%>      
+      <p style="margin-left: 20px;"><%= answer.content  %></p><div style="float: right;font-size: 9pt;color:#4682B4;margin-right:20px;margin-top:-30px;"><i class="icon-calendar"></i> Posted <%= answer.created_at.to_date.strftime("%B %d, %Y") %></div>
+         <p style="margin-left: 20px;">
+           <% if user.image_url.nil?%>
+                        <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+                        <% else%><%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        <div style = "height:20px;font-size:10px;color:#4682B4;padding-left:28px;" >
+                        <%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => @discussion.user_id }%>
+            | <i class="icon-thumbs-up"></i><%= answer.kudos%> Kudos
+            | <% @kudos_given=KudosToAnswer.find_by_user_id_and_answer_id(current_user.id, answer.id)%>
+                            <% if @kudos_given.nil?%>
+                            <a style="text-decoration:none;margin-left:10px;"> <i class="icon-thumbs-up"></i> <%= link_to 'Kudos', :controller=>"answers", :action=>"kudos_to_answer",:id=>answer.id, :discussion_id=>@discussion.id%> </a> 
+                            <% else%>
+                            <i style="text-decoration:none;margin-left:10px;" class="icon-thumbs-up"></i> Kudos Given
+                            <% end%>
+                          </div>
+     <% end %>
+                
+   <%= form_for :answer, :url => {:controller => 'answers', :action => 'create_ans', :id => @discussion.id  } do |f| %>
+
+       <p style="margin-left: 20px;"> <%= f.text_area :content , :class => 'option-large-comment',:placeholder => "write your answer here..."%> </p> 
+      
+       <p style="margin-left: 290px;"><%= f.submit "Post", 'class'=>"btn btn-primary" %> <p>
+      
+    <% end %>
+</div>
+

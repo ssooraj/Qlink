@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<link href="/assets/home.css" media="screen" rel="stylesheet" type="text/css" />        
+
+    <div id="container_box">
+        <div id="post_box">
+            <table>
+                <%=  form_for :home, :html => {:multipart => true},:url => {:controller => 'home', :action => 'create'} do |f| %>
+                    <tr>
+                        <td>Whats on your mind?<%= f.text_field :description, :style=>"width: 760px; "%>
+                            <div class="span1" style="margin-top:8px;margin-left:0px;">
+                                Attach:
+                            </div>
+                            <div class="span4">      
+                                <ul class="nav nav-tabs" style="border-bottom:none;" >
+                                    <li style="text-align: center;"><%= link_to 'Image <i class="icon-picture"></i>'.html_safe, :controller=>"home", :action=>"upload", :option=>"image"%></li>             
+                                    <li style="text-align: center;"><%= link_to 'Video <i class="icon-film"></i>'.html_safe, :controller=>"home", :action=>"upload", :option=>"video"%></li>
+                                </ul>
+                            </div>                          
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <% if @file_option=="none"%>
+                            <%= f.submit "Post" ,'class'=>"btn btn-primary", :style=>"float: right;width: 120px;background:#3b5998;margin-top:-55px;"%>                            
+                            <% end%>
+
+                            <% if @file_option=="image"%>
+                            <p style="margin-top:-20px;">Upload Image&nbsp<%= f.file_field :image%></p>
+                            <%= f.submit "Post" ,'class'=>"btn btn-primary", :style=>"float: right;width: 120px;background:#3b5998;margin-top:-45px;"%>
+                            <% end%>
+
+                            <% if @file_option=="video"%>
+                            <p style="margin-top:-20px;">Upload Video&nbsp<%= f.file_field :video%></p>
+                            <%= f.submit "Post" ,'class'=>"btn btn-primary", :style=>"float: right;width: 120px;background:#3b5998;margin-top:-45px;"%>
+                            <% end%> 
+
+                        </td>
+
+                    </tr>
+                <% end%>
+            </table>
+        </div>
+
+        <div class="span12" style="padding-right:25px;">  
+            <ul class="nav nav-tabs">
+
+                <li class="active" style="width: 190px; text-align: center;"><%= link_to '  Latest Posts  ', :controller => "home", :action => "home"%></li> 
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Blogs', :controller => "home", :action => "latest_blogs"%></li>
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Discussions', :controller => "home", :action => "latest_discussions"%></li>
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Events', :controller => "home", :action => "latest_events"%></li>
+            </ul>   
+        </div>
+        
+        <% if @updated_posts.empty?%>
+
+        <% else %>
+        <div style="padding-top:40px;">               
+                <% @updated_posts.each do |post| %>
+                    <div id="user_posts">
+                        <% @user=Profile.find_by_user_id(post.user_id)%>
+                        <% if @user.image_url.nil?%>
+                            <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+                        <% else%>
+                            <%= image_tag @user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        &nbsp&nbsp<a style="text-decoration: none;"><%= link_to "#{@user.first_name}", :controller => "profiles", :action => "about", :id => @user.user_id %></a> &nbsp   
+                        <% if ((post.receiver_id.nil?)||(post.receiver_id==post.user_id))%>
+                        says
+                        <% else%>
+                        
+                            <% @receiver=Profile.find_by_user_id(post.receiver_id)%>
+                            &nbsp <i class="icon-play"></i> &nbsp&nbsp 
+                        <% if @receiver.image_url.nil?%>
+                        <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+                        <%else%>
+                        <%= image_tag @receiver.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        <%= link_to "#{@receiver.first_name}", :controller => "profiles", :action => "about", :id => @receiver.user_id %>
+                        <%end%>        
+                        <div style="float: right;padding-left: 20px;font-size: 9pt; padding-right: 10px;color:#4682B4;">
+
+                            <%= post.created_at.to_date.strftime("%B %d, %Y") %>&nbsp&nbsp&nbsp&nbspPosted <% @seconds_from_post_creation = (Time.now.to_i - Time.at(post.created_at).to_i)%>
+                            <% if (@seconds_from_post_creation>(60*60*24))%>
+                                <%= @days_from_creation = @seconds_from_post_creation / (60*60*24)%> days ago
+                            <% else if((@seconds_from_post_creation>(60*60))&&(@seconds_from_post_creation<(60*60*24)))%>
+                                <% @hours_from_creation = @seconds_from_post_creation/(60*60)%> 
+                                <% if @hours_from_creation==1%>
+                                    <%= @hours_from_creation%> hour ago
+                                <% else%>
+                                    <%= @hours_from_creation%> hours ago
+                                <% end%>
+                                <% else if((@seconds_from_post_creation<(60*60))&&(@seconds_from_post_creation>120))%>
+                                    <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minutes ago
+                                    <% else if((@seconds_from_post_creation>60)&&(@seconds_from_post_creation<120))%>
+                                        <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minute ago
+                                        <% else%>
+                                        just now
+                                        <% end%> 
+                                    <% end%>
+                                <%end%>
+                            <% end%> 
+                            &nbsp&nbsp&nbsp&nbsp
+                            <% if post.user_id==current_user.id%>
+
+                            <%= link_to content_tag('i', '', class: 'icon-trash'), home_path(post.id), confirm: "Are you sure you want to delete ?", method: :delete%>
+                            <%end%>
+                        
+                      </div>
+
+                    <% if ((post.video_url.nil?)&&(post.image_url.nil?))%>
+                        <div class="well" id="description">
+                            <p style="padding-top: 20px;"><%= post.description%></p>
+                        </div>
+                    <% else if post.image_url.nil?%>
+                        <div class="well" id="description">
+                            <a class="thumbnail" style="padding:20px;"><%= video_tag post.video_url.to_s, :size =>"480x270", :controls => true, :autobuffer =>true , :style=>"margin-left:100px;"   %><%link_to "#{video_tag post.video_url.to_s}"%></a>
+                            <p style="padding-top: 20px;"><%= post.description%></p>
+                        </div>
+                        <% else%>
+                            <div class="well" id="description">
+                                <%= image_tag post.image_url.to_s, :size =>"480x270", :style=>"margin-left:100px;"%><%link_to "#{image_tag post.image_url(:thumb).to_s}"%></a>
+                                <p style="padding-top: 20px;"><%= post.description%></p>
+                            </div>
+                        <% end%>
+                    <%end%>
+                        <div id="kudos">
+                            <% @kudos_given=KudosToPosts.find_by_user_id_and_post_id(current_user.id, post.id)%>
+                            <% if @kudos_given.nil?%>
+                            <a style="text-decoration:none;margin-left:10px;"><%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, :controller=>"home", :action=>"kudos_to_post", :id=>post.id%> Kudos</a> 
+                            <% else%>
+                            <i style="text-decoration:none;margin-left:10px;" class="icon-thumbs-up"></i> Kudos Given
+                            <% end%>
+                            <% kudos_list=KudosToPosts.where("post_id = ?", post.id)%>
+                            <a style="float:right;margin-right:10px;text-decoration:none;" TITLE="Kudos Given By:&#10;<% kudos_list.each do |kudos|%>&#13;<% user=Profile.find_by_user_id(kudos.user_id)%><%=user.first_name%><%end%>"><%= post.kudos%> Kudos <i class="icon-thumbs-up"></i></a>  
+                        </div>
+                    </div>                     
+                <% end%>                           
+        </div>
+        <% end%> 
+    </div>

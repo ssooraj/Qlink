@@ -1,0 +1,34 @@
+#profile_form {
+	float:left;
+
+    margin-left:40px;
+    height: auto;
+    width: 550px;
+    padding-right: 10px;
+    border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white; 
+}
+
+h3 {
+    padding-left: 200px;
+}
+
+
+#form_fields {
+	margin-left: 90px;
+	margin-top: 20px;
+}
+
+#submit {
+
+	margin-left: 300px;
+
+}
+
+#heading {
+	margin-left: 80px;
+
+}
+

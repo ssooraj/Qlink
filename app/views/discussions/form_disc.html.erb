@@ -1,0 +1,76 @@
+ 
+ 
+ <link rel="stylesheet" type="text/css" href="css/select2.css"/> 
+ <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> 
+ <link rel="stylesheet" type="text/css" href="../select2-bootstrap.css"/>
+
+<div id="form_box">
+    <h4 style="margin-left: 200px;">New Discussion</h4>
+
+     
+      <fieldset style="margin-left: 200px;margin-top: 20px;">
+      <%= form_for :discussion, :url => {:controller => 'discussions', :action => 'create'} do |f| %>
+      <div class="control-group">
+         <%=f.label :question_title ,:class=>"control-label" %>
+         <div class="controls">
+         <%=f.text_field :title ,:autofocus => true, :id=>"textinput", :class=>"input-xlarge" %>
+        </div>
+      </div>
+      
+      <div class="control-group">
+         <%=f.label :content , :class=>"control-label"%>
+         <div class="controls">
+         <%=f.text_area :content, :rows => 4, :cols => 30 ,:id=>"textarea", :class => 'option-large'%>
+         </div>
+      </div>
+        
+        
+      <div class="control-group">
+         <%=f.label :tag ,:class=>"control-label" %>
+         <div class="controls">
+            <%= f.select(:tag, ['Phone', 'Email','Website','Address', 'Occupation'], {},  :id=>"multiple",:class=>"select2", :multiple=>"multiple" ,:style=>"width:220px" ) %>
+        </div>
+    </div>
+        
+     <%= f.submit "Ask", 'class'=>"btn btn-primary"%> 
+      <% end %>
+    </div>
+
+<script>
+   $('.select2').select2({ placeholder : '' });
+ </script>
+
+<% if @discussion_all.empty?%>
+<%else%>
+
+<div id ="Question">
+<div class="well">
+   <%@discussion_all.each do |disc| %>
+      
+      <% user=Profile.find_by_user_id(disc.user_id)%>
+      <h4><strong><h1> <%= link_to disc.title, {:controller => "discussions", :action => "view_disc", :id => disc.id }%></h1></a></strong></h4>
+         <p><td><%= disc.content %></td></p>
+      
+      
+      <br> <br> <br> <br> 
+      
+      <p>
+        <% if user.image_url.nil?%>
+                        <i class="icon-user"></i>
+                        <% else%><%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        &nbsp<%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => disc.user_id }%>&nbsp </td>
+         | <i class="icon-calendar"></i> Posted <%= Time.at(disc.created_at) %>
+         | <i class="icon-share"></i> <%= disc.kudos%> Kudos
+         | <i class="icon-tags"></i> Tags : <a href=""><span class="label label-info"> <%=disc.tag %> </span></a>
+      </p>             
+    <%end%>    
+  
+    
+   
+    
+</div>
+
+
+</div>
+<% end%>

@@ -1,0 +1,47 @@
+<html>
+<link href="/assets/events.css" media="screen" rel="stylesheet" type="text/css" />
+
+<body>
+     <div id="container_box">
+      <div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">
+          
+            <ul class="nav nav-tabs">
+              <li style="width: 259px; text-align: center;"> <%= link_to "LIST", firstpage_events_path%></li>
+              <li style="width: 259px; text-align: center;"><%= link_to "NEW EVENT", events_path %></li>
+              <li style="width: 259px; text-align: center;"> <%= link_to "CALENDAR", showcalender_events_path%></li>
+   </ul>
+  </div>
+  <div id='outer' style ="margin:10px 20px 20px 20px;width:760px;padding-top:20px;color:#4682B4;">  
+      <%= form_for :event, url: { action: 'updatesave_event', controller: "events", method: :post,:id=>@event.id, :eventid => @event.eventId} do |f| %>
+     <div style="padding-left:260px;"> 
+      <p>
+
+         <%=f.label :title %>
+         <%=f.text_field :title ,:value => @event.title ,:style => "color:#4682B4;" %>
+      </p>
+	  <p>
+         <%=f.label :description %>
+         <%=f.text_area :description, :rows => 4, :cols => 30 ,:value => @event.description,:style => "color:#4682B4;" %>
+	 </p>
+     <p>
+  		<%=f.label :starttime, 'Start Date' %>
+      <%= f.text_field :start, 'data-behaviour' => 'datepicker' ,:value => @event.start.to_date ,:style => "color:#4682B4;"%>
+  	
+	</p>
+	<p>
+       <%=f.label :endtime, 'End Date' %>
+        <%= f.text_field :endtime, 'data-behaviour' => 'datepicker' ,:value => @event.endtime.to_date,:style => "color:#4682B4;" %>
+    
+	</p>
+	<p>
+
+      <%= f.submit(type: 'submit', class: "btn btn-info", :value => "SUBMIT")  %>
+     <!-- <%= button_tag "Cancel", :type => 'button' , class: "btn btn-info"%>
+      <button class="btn btn-info" type="button"><%= link_to "CANCEL", firstpage_events_path %></button>-->
+	</p>
+</div>
+  <% end %>
+ </div>
+</div>
+ </body>  
+</html>

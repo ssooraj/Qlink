@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<link href="/assets/about.css" media="screen" rel="stylesheet" type="text/css" />	
+<div id="container_box" >	
+		<div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">  
+            		<ul class="nav nav-tabs" >
+                        <li style="width: 158px; text-align: center;"><%= link_to 'About', :controller => "profiles", :action => "about", :id => @profile.user_id%></li>                
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Posts', :controller => "profiles", :action => "my_posts", :id => @profile.user_id%></li>
+
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Photos', :controller => "profiles", :action => "photos", :id => @profile.user_id%></li>
+                        <li class="active" style="width: 158px; text-align: center;"><%= link_to 'Videos', :controller => "profiles", :action => "videos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Events', :controller => "profiles", :action => "events", :id => @profile.user_id%></li>
+                    </ul>
+    	</div>
+
+        <% if @videos.empty?%>
+        <h5 style="float:left; padding-left:30px;"> No videos to display...</h5>
+        <%else%>           
+                    <% @videos.each do |video|%>
+                    
+                    <div class="well" style="width: 550px;margin-top:40px;margin-left:70px;">
+                       <a><%= video_tag video.video_url.to_s, :size =>"480x270", :controls => true, :autobuffer =>true, :style=>"margin-left:35px;margin-top:30px;"  %><%link_to "#{image_tag video.video_url.to_s}"%></a>
+                        <p style="padding-top: 20px;"><%= video.description%></p>
+                    </div> 
+                          
+                    <% end%>         
+                
+        
+    
+        <% end%>
+</div>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+
+  <link href="/assets/profiles.css" media="screen" rel="stylesheet" type="text/css" />		
+	<div id="container_box">		
+				<div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">  
+            		<ul class="nav nav-tabs" >
+                        <li class="active" style="width: 156px; text-align: center;"><%= link_to 'About', :controller => "profiles", :action => "about", :id => @profile.user_id%></li>                
+                        <li style="width: 156px; text-align: center;"><%= link_to 'Posts', :controller => "profiles", :action => "my_posts", :id => @profile.user_id%></li>
+
+                        <li style="width: 156px; text-align: center;"><%= link_to 'Photos', :controller => "profiles", :action => "photos", :id => @profile.user_id%></li>
+                        <li style="width: 156px; text-align: center;"><%= link_to 'Videos', :controller => "profiles", :action => "videos", :id => @profile.user_id%></li>
+                        <li style="width: 156px; text-align: center;"><%= link_to 'Events', :controller => "profiles", :action => "events", :id => @profile.user_id%></li>
+                    </ul>    
+    			</div>
+
+          <div style="float:left;">            
+            <fieldset style="margin-left: 230px;margin-top: 40px;">
+
+            <!-- Form Name -->
+            <h3>Update Profile</h3>
+            <div id="form_fields">
+            <%=  form_for :profile, :url => {:controller => 'profiles', :action => 'create'} do |f| %>
+                <!-- Text input-->
+                <div class="control-group">
+                <%= f.label :first_name, :class=>"control-label"%>
+                  <div class="controls">
+                    <%= f.text_field :first_name, :autofocus => true, :value=>"#{@profile.first_name}",:id=>"textinput", :class=>"input-xlarge" %>
+                  </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="control-group">
+                    <%= f.label :last_name, :class=>"control-label"%>
+                    <div class="controls">
+                      <%= f.text_field :last_name , :autofocus => true, :id=>"textinput", :class=>"input-xlarge" %>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <%= f.label :date_of_birth, :class=>"control-label"%>
+                    <div class="controls">
+                      <%= f.text_field :date_of_birth, 'data-behaviour' => 'datepicker' %>
+                    </div>
+                </div>
+            
+                <!-- Textarea -->
+                <div class="control-group">
+                    <%= f.label :address, :class=>"control-label"%>
+                    <div class="controls">                     
+                      <%= f.text_area :place, :style=>"height: 30px;", :id=>"textarea" %>
+                    </div>
+                </div>
+
+                <%= f.submit "Update", :id=>"submit", :class=>"btn btn-primary", 'data-loading-text'=>"Updating..."%>
+          <% end %>
+        </div>
+          </fieldset>
+        </div>
+    </div>
+
+</html>

@@ -1,0 +1,78 @@
+ <link rel="stylesheet" type="text/css" href="css/select2.css"/> 
+ <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/> 
+ <link rel="stylesheet" type="text/css" href="../select2-bootstrap.css"/>
+
+<div id="form_box">
+    <h4 style="margin-left: 200px;">New Discussion</h4>
+
+     
+      <fieldset style="margin-left: 200px;margin-top: 20px;">
+      <%= form_for :discussion, :url => {:controller => 'discussions', :action => 'create'} do |f| %>
+      <div class="control-group">
+         <%=f.label :question_title ,:class=>"control-label" %>
+         <div class="controls">
+         <%=f.text_field :title ,:autofocus => true, :id=>"textinput", :class=>"input-xlarge" %>
+        </div>
+      </div>
+      
+      <div class="control-group">
+         <%=f.label :content , :class=>"control-label"%>
+         <div class="controls">
+         <%=f.text_area :content, :rows => 3, :cols => 30 ,:id=>"textarea", :class=>"input-xlarge"%>
+         </div>
+      </div>
+        
+        
+ <div class="control-group">
+         <%=f.label :tag ,:class=>"control-label" %>
+         <div class="controls">
+            <%= f.select(:tag, ['Ruby', 'HTML','IOS','Java', 'Android'],   :id=>"multiple",:class=>"select2", :multiple=>"multiple" ,:style=>"width:220px" ) %>
+        </div>
+    </div>
+        
+     <%= f.submit "Ask", 'class'=>"btn btn-primary"%> 
+      <% end %>
+    </div>
+
+<script>
+   $('.select2').select2({ placeholder : '' });
+ </script>
+
+<% if @discussion_all.empty?%>
+<%else%>
+
+<div id ="Question">
+  <div class="span12">  
+    <ul class="nav nav-tabs" >
+      <li style="width: 267px; text-align: center;font-size:15px;"><%= link_to 'Top Discussions',  top_disc_discussions_path%></li>
+      <li   style="width: 267px; text-align: center;font-size:15px;"><%= link_to 'Latest Discussions',  latest_disc_discussions_path%></li>
+      <li   class="active" style="width: 266px; text-align: center;font-size:15px;"><%= link_to 'My Discussions',  my_disc_discussions_path%></li>
+    </ul>   
+  </div>
+
+  <br><br><br><br>
+
+   <%@discussion_all.each do |disc| %>   
+   <div style =" border:2px solid #e3e3e3;">
+      <% user=Profile.find_by_user_id(disc.user_id)%>
+      <h4 style = "margin-left:20px;margin-right:20px;"><strong><h4> <%= link_to disc.title, {:controller => "discussions", :action => "view_disc", :id => disc.id }%></h4></a></strong></h4>     
+         <p style = "margin-left:20px;margin-right:20px;font-size:11pt;"><%= disc.content %> <div style="float: right;font-size: 9pt;color:#4682B4;margin-right:20px;margin-top:-60px;"><i class="icon-calendar"></i> Posted <%= disc.created_at.to_date.strftime("%B %d, %Y") %></div></p>    
+      <div class= "well" style = "margin-top:20px;margin-left:20px;margin-right:20px;height:20px;">
+      <div style = "height:20px;font-size:10px;color:#4682B4;margin-left:-12px;">
+        <% if user.image_url.nil?%>
+                        <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+                        <% else%>
+                        <div style="margin-top:-12px;float:left;">
+                          <%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        </div>
+                        <% end%>
+                          <%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => disc.user_id }%> 
+         | <i class="icon-share"></i> <%= disc.kudos%> Kudos
+         | <i class="icon-tags"></i> Tags : <%= link_to disc.tag, {:controller => "discussions", :action => "list_by_tags", :tag => disc.tag } , :class => "label label-info" %>  
+      </div>             
+    </div>
+    </div></br>
+    <%end%>   
+
+</div>
+<% end%>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<link href="/assets/home.css" media="screen" rel="stylesheet" type="text/css" />        
+
+    <div id="container_box" style="padding-right:30px;">
+        <div id="post_box">
+
+            <table>
+                <%=  form_for :home, :html => {:multipart => true},:url => {:controller => 'home', :action => 'create'} do |f| %>
+
+                    <tr>
+                        <td>Whats on your mind?<%= f.text_field :description, :style=>"width: 760px; "%>
+                            <div class="span1" style="margin-top:8px;margin-left:0px;">
+                                Attach:
+                            </div>
+                            <div class="span4">      
+                                <ul class="nav nav-tabs" style="border-bottom:none;" >
+                                    <li style="text-align: center;"><%= link_to 'Image <i class="icon-picture"></i>'.html_safe, :controller=>"home", :action=>"upload", :option=>"image"%></li>             
+                                    <li style="text-align: center;"><%= link_to 'Video <i class="icon-film"></i>'.html_safe, :controller=>"home", :action=>"upload", :option=>"video"%></li>
+                                </ul>
+                            </div>                          
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <% if @option=="none"%>
+                            
+                            <% end%>
+                            <% if @option=="image"%>
+                            Upload Image&nbsp<%= f.file_field :image%>
+                            <% end%>
+                            <% if @option=="video"%>
+                            Upload Video&nbsp<%= f.file_field :video%>
+                            <% end%> 
+                        </td>
+
+                    </tr>
+                    <tr> 
+                        <td><%= f.submit "Post" ,'class'=>"btn btn-primary", :style=>"float: right;width: 120px;background:#3b5998;margin-top:-45px;"%></td>
+
+                    </tr>
+                <% end%>
+            </table>
+        </div>
+
+        <div class="span12" style="padding-right:25px;">  
+            <ul class="nav nav-tabs" >
+
+                <li style="width: 190px; text-align: center;"><%= link_to '  Latest Posts  ', :controller => "home", :action => "home"%></li>             
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Blogs', :controller => "home", :action => "latest_blogs"%></li>
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Discussions', :controller => "home", :action => "latest_discussions"%></li>
+                <li class="active" style="width: 190px; text-align: center;"><%= link_to 'Latest Events', :controller => "home", :action => "latest_events"%></li>
+            </ul>   
+        </div>
+        
+    <% if @updated_events.empty?%>
+            
+    <% else %>
+        <div style="padding-top:40px;">
+                <% @updated_events.each do |event| %>
+                <div id="user_posts">
+                    <% @user=Profile.find_by_user_id(event.user_id)%>
+                        <% if @user.image_url.nil?%>
+                            <i class="icon-user"></i>
+                        <% else%>
+                            <%= image_tag @user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        &nbsp&nbsp<%= link_to "#{@user.first_name}", :controller => "profiles", :action => "about", :id => @user.user_id , :style=>"text-decoration: none;"%>  created Event  
+                                
+                        <div style="float: right;padding-left: 20px;color:#4682B4;font-size: 9pt;padding-right: 10px;">
+                            <%= event.created_at.to_date.strftime("%B %d, %Y") %>&nbsp&nbsp&nbsp&nbspPosted <% @seconds_from_post_creation = (Time.now.to_i - Time.at(event.created_at).to_i)%>
+                        <% if (@seconds_from_post_creation>(60*60*24))%>
+                            <%= @days_from_creation = @seconds_from_post_creation / (60*60*24)%> days ago
+                        <% else if((@seconds_from_post_creation>(60*60))&&(@seconds_from_post_creation<(60*60*24)))%>
+                                <% @hours_from_creation = @seconds_from_post_creation/(60*60)%> 
+                                <% if @hours_from_creation==1%>
+                                    <%= @hours_from_creation%> hour ago
+                                <% else%>
+                                    <%= @hours_from_creation%> hours ago
+                                <% end%>
+                                <% else if((@seconds_from_post_creation<(60*60))&&(@seconds_from_post_creation>120))%>
+                                    <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minutes ago
+                                    <% else if((@seconds_from_post_creation>60)&&(@seconds_from_post_creation<120))%>
+                                        <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minute ago
+                                        <% else%>
+                                        just now
+                                        <% end%> 
+                                    <% end%>
+                                <%end%>
+                        <% end%>               
+                    </div>
+                    <div class=well style="padding-left: 30px;margin-top: 20px;padding-top: 10px;">
+                        <a href="#"><h4> <%= event.title %></h4></a>
+                        <p> <%= event.description %> </p>
+                        <p><i class="icon-calendar"></i>&nbsp&nbsp <%= event.start.to_date.strftime("%B %d, %Y") %>&nbsp&nbsp&nbsp to &nbsp&nbsp &nbsp<%= event.endtime.to_date.strftime("%B %d, %Y")%> </p>
+                    </div>
+                    <div class="row">
+                            <div class="span8">
+                                <p style="padding-left: 30px;">
+
+                                    <i class="icon-comment"></i> <a href="#" style="text-decoration: none; font-size: 8pt;">3 Comments</a> |
+                                    <i class="icon-user"></i><%= session[:count] %><%= link_to "Attendees", {:controller => "events", :action => "invitepeople", :id => event.eventid  }%></td>
+                                   
+                                |  
+                                </p>
+                            </div>
+                    </div>
+                </div>   
+                <% end%>
+            </div>       
+        <% end%>
+    </div>

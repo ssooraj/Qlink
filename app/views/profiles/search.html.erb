@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<link href="/assets/home.css" media="screen" rel="stylesheet" type="text/css" />        
+	<div id="container_box">
+		<h4 style="margin-left:20px;">Search Results...</h4>     
+		<div style="padding-bottom:20px;" >    
+			<% if @search_result.empty?%>
+			<h6 style="margin-left:50px;margin-top:20px;">Sorry, No Results Found....  </h6>
+			<% else%>
+			<% @search_result.each do |search|%>
+				<div id="user_posts" style="height:70px;">
+					<% user=User.find(search.user_id)%>
+					<div style="float:left;">
+						<% if search.image_url.nil?%>
+                            <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:70px;height:70px;">
+                        <% else%>
+                            <%= image_tag search.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:70px;height:70px;"%>
+                        <% end%> 
+                    </div>    
+                    <div style="float:left;height:90px;margin-left:20px;">     
+                        	<h4 style="margin-top:-4px;"><%= link_to "#{search.first_name}  #{search.last_name}", :controller => "profiles", :action => "about", :id => search.user_id %><h6><%= user.email%></h6><h6 style="margin-top:-12px;"><%= search.place%></h6></h4>         
+                    </div>
+                </div>		
+			<% end%>
+			<%end%>
+		</div>
+	</div>
+</html>

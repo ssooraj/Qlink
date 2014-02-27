@@ -1,0 +1,208 @@
+body{
+    margin:0px auto;
+    padding:0;
+    background:url(bg.png) left top repeat-x; 
+ }
+ 
+#container_for_login {
+    margin: 0px auto;
+}
+
+#header_for_login {
+    height:100px;
+
+    margin: 0px auto;
+}
+
+#error_for_login {
+    margin-top:6px;
+    height:20px;
+}
+
+#inner_container_for_login {
+    width: auto;    
+    min-height:550px;
+    min-width:1000px;
+    margin: 20px 50px 0 50px;
+}
+
+#sidebar_for_login {
+    margin-top:5px;
+    margin-left:0px;
+    float:left;
+    width:10%;
+    height:90%;
+    border:0px solid;
+}
+
+#about_for_login {
+    margin:0 380px 0 80px;
+}
+
+#about_for_login h5 {
+    font-family:"Arial", Gadget, sans-serif;
+    color: #3b5998;
+}
+
+#login_form {
+    margin:5px 80px 0 0;
+    height: 235px;
+    width:290px;
+    padding:20px; 
+    border:0px solid;
+    color:#333;
+    cursor:hand;
+    font-family:"Arial", Gadget, sans-serif;
+    font-weight: normal;
+    background-color:#E3DFDF;
+    float:right;
+    -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+}
+
+#inner_login_form {
+    margin:15px 0;
+    height:100px;
+    float:left;
+}
+
+#inner_login_form input{
+    min-width: 280px;
+    height: 28px;
+    padding: 0 5px;
+    font:13px Arial;
+    color: #333;
+    font-weight: normal;
+    
+
+}
+
+#login_form_checkbox {
+    margin-top: 15px;
+    float:left;
+    width:280px;
+}
+
+#login_form_checkbox input{
+    float:left;
+    width:15px;
+    height:15px;
+    margin: 3px 5px 0 0;
+}
+
+#login_form #sign_in h2{
+    font:20px Arial;
+    color: #333;
+    margin:5px 0;
+    line-height: 13px; 
+    font-weight: bold;
+
+}
+
+#login_form #btnSign_in #submit_button{
+    max-width: 90px;
+    height: 31px;
+    font:13px Arial;
+    color: #fff;
+    font-weight: normal;
+    line-height: 20px;
+    cursor: pointer;
+    margin:-14px 0px;  
+    
+}
+
+#login_form #btnSign_in input {
+    width:90px;
+}
+
+#login_form table {
+    color:black;
+    float: left;
+    margin-left:0px;
+}
+
+#login_form #sign_in {
+    float: left;
+}
+#qlink {
+    opacity:0.6;
+    float: right;
+    margin-right: 0%;
+}
+
+#btnSign_in {
+    float: left;
+    
+}
+
+#btnGoogle {
+    float: right;
+    margin:16px 0px;
+    height:200px;
+   width:180px;
+   border:0px solid;
+    
+}
+
+#right_sidebar_for_login {
+    margin-top:5px;
+    margin-left:1%;
+    float:left;
+    width:10%;
+    height:90%;
+    border:0px solid;
+
+}
+
+.option-large {
+    height:30px !important;
+    width:200px;
+}
+
+.btn-danger{
+    text-align: center;
+    font-size: 14px;
+    text-shadow: 3 -5px 0 rgba(0,0,0,.25);
+}
+
+.style_image_for_login {
+    margin-top:20px;
+    margin-left:50px;
+    height: 60px;
+    width: 140px;
+}
+
+#message_for_login {
+    float:left;
+    margin-top:5px;
+    margin-left:10%;
+    height:21%;
+    width:52%;
+    border:0px solid;
+}
+
+#message_for_login h4{
+    color: #3b5998;
+}
+
+#footer_for_login {
+    background-color: #E3DFDF;
+   border: 0 solid;
+   bottom: 0;
+   color: #666666;
+   float: left;
+   font: 12px/30px Arial;
+   height: 30px;
+   margin-left: 0;
+   margin-top: 5px;
+   position: fixed;
+   width: 100%;
+}
+
+#footer_for_login p {
+    margin-left: 50px;
+    color: black;
+    text-align: left;
+}
+

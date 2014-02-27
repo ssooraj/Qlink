@@ -1,0 +1,87 @@
+class User < ActiveRecord::Base
+
+  	# Include default devise modules. Others available are:
+  	# :token_authenticatable, :confirmable,
+  	# :lockable, :timeoutable and :omniauthable
+
+  	devise :database_authenticatable, :registerable, :token_authenticatable,
+        :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  
+  	# Setup accessible (or protected) attributes for your model
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+  	attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :passwordflag
+=======
+  	attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :passwordflag,:token
+>>>>>>> b8d1f5eaee01fb63f9608f0d5e646a63ce84aa3b
+=======
+  	attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :passwordflag
+>>>>>>> bab6c60a3374d6d4873ce00eaf674203b53064e2
+=======
+  	attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :passwordflag
+>>>>>>> b8682d4e5ea61ba62909d7998bba75293bf0bbea
+
+    
+    
+  	# attr_accessible :title, :body
+
+has_many :post   
+has_many :event
+has_many :blog
+has_many :discussion
+has_one :profile
+
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b8682d4e5ea61ba62909d7998bba75293bf0bbea
+
+  	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+
+=======
+  	def self.find_for_open_id(access_token, signed_in_resource=nil)
+>>>>>>> 08b4bd38d3eba81df1ce96f836df6afadd5af438
+<<<<<<< HEAD
+=======
+
+
+  	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+
+>>>>>>> b8d1f5eaee01fb63f9608f0d5e646a63ce84aa3b
+=======
+  	def self.find_for_open_id(access_token, signed_in_resource=nil)
+>>>>>>> bab6c60a3374d6d4873ce00eaf674203b53064e2
+=======
+>>>>>>> b8682d4e5ea61ba62909d7998bba75293bf0bbea
+		    data = access_token['info']
+		    if user = User.where(:email => data['email']).first
+			     return user
+		    else #create a user with stub pwd
+			     User.create!(:email => data['email'], :password => Devise.friendly_token[0,20],  :passwordflag => :false)
+
+		    end
+	  end
+
+    def self.create_password(password)
+        if password.present?
+
+           p = Digest::SHA512.hexdigest(password)
+        end
+        return p
+    end
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> b8d1f5eaee01fb63f9608f0d5e646a63ce84aa3b
+=======
+>>>>>>> bab6c60a3374d6d4873ce00eaf674203b53064e2
+=======
+>>>>>>> b8682d4e5ea61ba62909d7998bba75293bf0bbea
+end

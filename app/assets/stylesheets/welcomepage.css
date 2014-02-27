@@ -1,0 +1,91 @@
+        .web_dialog_overlay
+        {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background:  white;
+            opacity: 0.5;
+            filter: alpha(opacity=15);
+            -moz-opacity: .5;
+            z-index: 101;
+            display: none;
+        }
+
+        .web_dialog
+        {
+            display: none;
+            position: fixed;
+            width: 740px;
+            height: auto;
+            top: 140px;
+            left: 250px;
+            background-color:#3b5998; 
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding: 0px;
+            z-index: 102;
+            font-family:"Arial Black", Gadget, sans-serif;
+            font-size: 10pt;
+        }
+        .web_dialog h3 
+        {
+            text-align: center;
+            font-family:"Arial Black", Gadget, sans-serif;
+            color:white; 
+            margin-left: -190px;
+        }
+
+        #container_for_welcome 
+        {
+            border:0px solid;
+            width:100%;
+            height:100%;
+            background-color:white;     
+        }
+
+        #header_for_welcome 
+        {
+            margin-top:5px;
+            margin-left:0px;
+            height:100px;
+            width:100%;
+            border:0px solid;
+            background-color:#3b5998;  
+        }
+        
+        .style_image_for_welcome 
+        {
+            margin-top:20px;
+            margin-left:50px;
+            height: 60px;
+            width: 140px;
+        }
+
+        #footer_for_welcome {
+            float:left;
+            margin: 80%,0,0,0;
+            height:40%;
+            width:100%;
+            border:0px solid;
+            background-color:#E3DFDF;
+        }
+
+        #btnImport 
+        {
+            margin-left: 40px;
+            text-align: left;
+        }
+
+        #btnSkip
+        {
+            margin-top: -50px;
+            margin-right: 40px;
+            text-align: right;
+        }

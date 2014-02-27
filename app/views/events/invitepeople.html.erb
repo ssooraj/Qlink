@@ -1,0 +1,63 @@
+
+ 
+  <html>
+
+<link href="/assets/events.css" media="screen" rel="stylesheet" type="text/css" />
+
+     <div id="container_box" style="width:810px;">
+      <div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">
+          
+            <ul class="nav nav-tabs">
+              <li style="width: 259px; text-align: center;"> <%= link_to "LIST", firstpage_events_path%></li>
+              <li style="width: 259px; text-align: center;"><%= link_to "NEW EVENT", events_path %></li>
+              <li style="width: 259px; text-align: center;"> <%= link_to "CALENDAR", showcalender_events_path%></li>
+   </ul>
+  </div>
+<body>
+
+  <div id='outer' >   
+   
+   <table id ="fortable">
+     <col width="80">
+    <tr>
+
+         <td id ="fortd" style="padding-left:20px;"><h5>Attendees:&nbsp</h5></td>
+         <% @eventemail.each do |email| %>
+         <td id ="fortd">&nbsp<%= email.email %></br></td>
+        <%end%>
+    </tr>
+          <tr>
+          <td id ="fortd">Event</td>
+          <td id ="fortd"><%= session[:@event].title %></td> 
+         </tr><tr>
+          <td id ="fortd">Description</td>
+          <td id ="fortd"><%= session[:@event].description %></td> 
+        </tr><tr>
+          <td id ="fortd">Start Date</td>
+          <td id ="fortd"><%= session[:@event].start.to_date.strftime("%B %d, %Y") %></td>  
+           </tr><tr>
+          <td id ="fortd">End Date</td>
+          <td id ="fortd"><%= session[:@event].endtime.to_date.strftime("%B %d, %Y") %></td>
+          </tr>      
+
+</table>
+<div id="div_for_inviteform">
+      <%= form_for :eventemail, url: { action: 'save_eventemail', controller: "events", method: :post ,:id=>session[:@event].id} do |f| %>
+    
+      <div style="margin-top:30px;margin-left:130px;color:#4682B4;"> 
+       
+       <%=f.label :invite, 'INVITE PEOPLE' %>     
+      <%=f.text_field :email, :value => "emailid",:style => "color:#4682B4;"%></div>
+      <div style="margin-top:-40px;margin-left:370px;">
+      <%= f.submit(type: 'submit', class: "btn btn-primary", :value => "ADD")  %>
+      </div>
+    
+  <% end %>
+</div>
+  
+  
+
+ </div>
+</div>
+ </body>  
+</html>

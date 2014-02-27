@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<link href="/assets/about.css" media="screen" rel="stylesheet" type="text/css" />   
+<div id="container_box" style="padding-right:10px;">    
+        <div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">  
+                    <ul class="nav nav-tabs" >
+                        <li style="width: 158px; text-align: center;"><%= link_to 'About', :controller => "profiles", :action => "about", :id => @profile.user_id%></li>                
+                        <li class="active" style="width: 158px; text-align: center;"><%= link_to 'Posts', :controller => "profiles", :action => "my_posts", :id => @profile.user_id%></li>
+
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Photos', :controller => "profiles", :action => "photos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Videos', :controller => "profiles", :action => "videos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Events', :controller => "profiles", :action => "events", :id => @profile.user_id%></li>
+                    </ul>  
+        </div>  
+
+    
+            <div id="post_box" >
+                <table >
+                   <%=  form_for :home, :html => {:multipart => true},:url => {:controller => 'home', :action => 'postmessage' ,:id=>@guestuserid} do |f| %>
+                     <tr>
+                        <td>Say something to&nbsp<%=@profile.first_name%>&nbsp!<%= f.text_field :description, :style=>"width: 670px; "%>
+                            <div class="span1" style="margin-top:8px;margin-left:0px;">
+                                Attach:
+                            </div>
+                            <div class="span4">      
+                                <ul class="nav nav-tabs" style="border-bottom:none;" >
+                                    <li style="text-align: center;"><%= link_to 'Image <i class="icon-picture"></i>'.html_safe, :controller=>"profiles", :action=>"upload_file_for_postmessage", :option=>"image", :id=>@profile.user_id%></li>             
+                                    <li style="text-align: center;"><%= link_to 'Video <i class="icon-film"></i>'.html_safe, :controller=>"profiles", :action=>"upload_file_for_postmessage", :option=>"video", :id=>@profile.user_id%></li>
+                                </ul>
+                            </div>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <% if @option=="none"%>
+                            
+                            <% end%>
+
+                            <% if @option=="image"%>
+                            Upload Image&nbsp<%= f.file_field :image%>
+                            <% end%>
+
+                            <% if @option=="video"%>
+                            Upload Video&nbsp<%= f.file_field :video%>
+                            <% end%> 
+                        </td>
+
+                    </tr>
+                    <tr> 
+                        <td><%= f.submit "Post" ,'class'=>"btn btn-primary", :style=>"float: right;width: 120px;background:#3b5998;margin-top:-45px;"%></td>
+                    </tr>
+                <% end%>
+                </table>
+            </div>
+        <div class="span12" style="margin-left:20px;padding-right:20px;">  
+                    <ul class="nav nav-tabs" >
+
+                        <li style="width: 263px; text-align: center;"><%= link_to 'My Posts  ', :controller => "profiles", :action => "my_posts", :id=>@profile.user_id%></li>       
+                        <li class="active" style="width: 263px; text-align: center;"><%= link_to 'My Blogs', :controller => "profiles", :action => "my_blogs", :id=>@profile.user_id%></li>
+                        <li style="width: 263px; text-align: center;"><%= link_to 'My Discussions', :controller => "profiles", :action => "my_discussions", :id=>@profile.user_id%></li>
+                    </ul>   
+        </div>
+        <% if @my_blogs.empty?%>       
+
+        <% else %>
+        <div style="padding-top:40px;">                
+                <% @my_blogs.each do |my_blog| %>
+                <div id="user_posts">
+                    <% @user=Profile.find_by_user_id(my_blog.user_id)%>
+                        <% if @user.image_url.nil?%>
+
+                        <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+
+                        <% else%><%= image_tag @user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        &nbsp&nbsp<%= link_to "#{@user.first_name}", :controller => "profiles", :action => "about", :id => @user.user_id , :style=>"text-decoration: none;"%>  blogs  
+                                
+
+
+                        <div style="float: right;padding-left: 20px;font-size: 8pt;color:#4682B4;">
+
+                            <%= my_blog.created_at.to_date.strftime("%B %d, %Y") %>&nbsp&nbsp&nbsp&nbspPosted <% @seconds_from_post_creation = (Time.now.to_i - Time.at(my_blog.created_at).to_i)%>
+                            <% if (@seconds_from_post_creation>(60*60*24))%>
+                                <%= @days_from_creation = @seconds_from_post_creation / (60*60*24)%> days ago
+                            <% else if((@seconds_from_post_creation>(60*60))&&(@seconds_from_post_creation<(60*60*24)))%>
+                                <% @hours_from_creation = @seconds_from_post_creation/(60*60)%> 
+                                <% if @hours_from_creation==1%>
+                                   <%= @hours_from_creation%> hour ago
+                                <% else%>
+                                    <%= @hours_from_creation%> hours ago
+                                <% end%>
+                                <% else if((@seconds_from_post_creation<(60*60))&&(@seconds_from_post_creation>120))%>
+                                    <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minutes ago
+                                    <% else if((@seconds_from_post_creation>60)&&(@seconds_from_post_creation<120))%>
+                                        <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minute ago
+                                        <% else%>
+                                        just now
+                                        <% end%> 
+                                    <% end%>
+                                <%end%>
+                            <% end%>               
+                        </div>
+
+
+                        <div class=well style="padding-left: 30px;margin-top: 20px;padding-top: 10px;"><a href="#"><h4> <%= my_blog.title %></h4></a><p> <%= my_blog.content %> </p>
+
+                        </div>         
+                        <div class="row">
+                            <div class="span8">
+                                <p style="padding-left: 30px;">
+                                    <i class="icon-comment"></i> <a href="#" style="text-decoration: none; font-size: 8pt;">Comments</a>
+                                |   <i class="icon-share"></i> <a href="#" style="text-decoration: none;font-size: 8pt;"><%= my_blog.kudos%>&nbspKudos</a>
+                                |   <i class="icon-tags"></i> <a href="#" style="text-decoration: none;font-size: 8pt;"><span class="label label-info">Tags : <%= my_blog.tag%></a>
+                                </p>
+                            </div>
+                        </div>
+                </div>   
+                <% end%>      
+        
+
+    
+    <% end%>
+    </div>
+    </div>

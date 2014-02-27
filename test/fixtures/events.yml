@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+<<<<<<< HEAD
+
+=======
+>>>>>>> a5a1dfab9d236832c141db1af92b60e599f0c835
+  title: MyString
+  description: MyString
+  start: 2013-04-26
+  end: 2013-04-26
+  allday: MyString
+
+two:
+  title: MyString
+  description: MyString
+  start: 2013-04-26
+  end: 2013-04-26
+  allday: MyString
+<<<<<<< HEAD
+=======
+
+>>>>>>> a5a1dfab9d236832c141db1af92b60e599f0c835

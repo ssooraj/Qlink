@@ -1,0 +1,62 @@
+= QLink
+  
+  “ Q-Link ” is a social cum technical networking site created for the use of all QBurstians. This is mainly developed to gather all technical, entertainment as well as cultural activities happening in QBurst.
+ 
+
+== Features
+
+  * SignIn using Gmail account.
+  
+  * Complete SignUp process.
+  
+  * Additional Features
+      * Blogs
+          Post Tech Blogs.Viewers can like and Comment. 
+      * Discusions
+          Post questions and initiate a discussion.
+      * Status Updates(with images and videos)
+          Update status posts along with videos and images.
+      * Wall Posts(with images and videos)
+          Post on others walls along with images and videos.
+      * Events - Create and Delete Events in sync with Google Calender
+          Access your Google Calender from inside Qlink.Create and Delete events in sync with your Google Calender
+          Invite your friends to the event using their email id.
+  
+  * Other Features
+      * Update Profile Picture and profile Password
+ 
+
+
+== Comments/Requests
+
+If anyone has comments or questions please let me know (qbruby@qburst.com).
+If you have updates or patches or want to contribute I would love to see what you have or want to add.
+
+
+== Note on Patches/Pull Requests
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. 
+* Send me a pull request.
+
+
+== Contributers
+
+This list is open to all. You are all welcome :).
+
+* Manisha Haridas
+  * Github: https://github.com/manishaharidas
+ 
+* Anil Dias Davis
+  * Github: https://github.com/anildias 
+  
+* Sooraj S 
+  * Github: https://github.com/ssooraj
+
+* Tania Bosco
+  * Github: https://github.com/taniabosco  
+
+
+Copyright (c) 2013 QBurst(qbruby@qburst.com). See LICENSE.txt for
+further details.

@@ -1,0 +1,44 @@
+<html>
+
+<link href="/assets/events.css" media="screen" rel="stylesheet" type="text/css" />
+<div id="container_box">
+
+     <div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">
+          
+            <ul class="nav nav-tabs">
+              <li class= "active" style="width: 259px; text-align: center;"> <%= link_to "LIST", firstpage_events_path%></li>
+              <li style="width: 259px; text-align: center;"><%= link_to "NEW EVENT", events_path %></li>
+              <li style="width: 259px; text-align: center;"> <%= link_to "CALENDAR", showcalender_events_path%></li>
+   </ul>
+  </div>
+
+
+  <div id ="outerfordisplay" >
+
+    <table class = "table table-striped" style="margin-left:20px;width:760px;" >
+
+
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+
+          <th style="width: 20px;"></th>
+        </tr>
+      </thead>
+<% @data_to_display.each do |data| %>       
+  <tr>
+    <td ><%= link_to data.title , {:controller => "events", :action => "invitepeople", :id => data.id }%></td> 
+    <td style ="text-align:justify;"><%= data.description %></td>  
+    <td ><%= data.start.to_date.strftime("%B %d, %Y") %></td>  
+    <td ><%= data.endtime.to_date.strftime("%B %d, %Y")%></td> 
+    <td><%= link_to '<i class="icon-pencil"></i>'.html_safe, {:controller => "events", :action => "update_event", :id => data.id }%></td><td><%= link_to '<i class="icon-remove"></i>'.html_safe, {:controller => "events", :action => "firstpageremove", :id => data.id }%></td> 
+
+  </tr>
+<% end %>
+</table>
+</div>  
+</div>
+</html>                                                                          

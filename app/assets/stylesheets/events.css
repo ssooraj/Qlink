@@ -1,0 +1,76 @@
+
+#forcalendar
+{
+    float:left;
+    margin-left: 10px;
+    margin-right: 100px;
+    width:650px;
+    height:520px;
+    background-color:white;
+    padding-left: 0px;
+    padding-top: 10px;
+}
+#forusername
+{
+    float:left; 
+    margin-left: 70px;
+    margin-top: 10px;
+    border:1px solid;
+    width:450px;
+    height:240px;
+    background-color:#C0DFEC;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+#fortd
+{
+  min-height: 20px;
+  font-size: 14px;
+}
+#fortable
+{
+  margin-left:100px;
+}
+#div_for_inviteform
+{
+  margin-left:0px;
+}
+#outer 
+  {
+   float:left;
+   text-align:left;
+    margin-left:20px;
+    height: auto;
+    width: 780px;
+    padding-right: 10px;
+    border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white;
+   
+  }
+  
+.option-large {
+  width: 70px ;
+}
+
+
+#outerfordisplay
+{
+  float:left;
+  height:auto;
+  width:720px;   
+  margin-left: 10px;
+  margin-right:10px;
+}
+
+
+#showtab
+{
+  float:right;
+  border:1px solid;
+  font-color:white;
+  background-color:#3A99C2;
+  margin-right:25px;
+  margin-top:0px;
+}

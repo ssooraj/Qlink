@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<link href="/assets/about.css" media="screen" rel="stylesheet" type="text/css" />	
+<div id="container_box">	
+		<div class="span12" style="margin-left:20px;margin-top:10px;padding-right:20px;">  
+            		<ul class="nav nav-tabs" >
+                        <li style="width: 158px; text-align: center;"><%= link_to 'About', :controller => "profiles", :action => "about", :id => @profile.user_id%></li>                
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Posts', :controller => "profiles", :action => "my_posts", :id => @profile.user_id%></li>
+
+                        <li class="active" style="width: 158px; text-align: center;"><%= link_to 'Photos', :controller => "profiles", :action => "photos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Videos', :controller => "profiles", :action => "videos", :id => @profile.user_id%></li>
+                        <li style="width: 158px; text-align: center;"><%= link_to 'Events', :controller => "profiles", :action => "events", :id => @profile.user_id%></li>
+                    </ul>  
+    	</div>
+
+        <% if @photos.empty?%>
+        <h5 style="float:left; padding-left:30px;"> No photos to display...</h5>
+        <%else if @photos.length==1%>
+        
+            <div id="link_previous">
+        
+            <a href="#" class="change_link">Previous</a>  
+        </div>
+        <div id="link_next">
+            
+           <a href="#" class="change_link" >Next</a>       
+        
+        </div>
+
+
+            <div class="slideshow" >           
+                
+                <%= image_tag @photos[0].image_url(:thumb).to_s, :style=>"margin-left:-25px;"%>
+        </div>
+
+        </div>
+        <% else%>
+    	
+            <div id="link_previous">
+        <% length=@photos.length%>
+        <% for i in (0..length-1)%>
+            <a href="#" class="change_link" onclick="$('.slideshow').blinds_change('<%=i-1%>')">
+        <% end%>Previous</a>  
+        </div>
+        <div id="link_next">
+            <% for i in (0..length-1)%>
+           <a href="#" class="change_link" onclick="$('.slideshow').blinds_change('<%=i%>')"><% end%>Next</a>       
+        
+        </div>
+        <div class="slideshow">   
+
+            <% @photos.each do |photo|%> 
+    		  <ul style="list-style:none;">    			
+    			 <li><%= image_tag photo.image_url(:thumb).to_s%></li>   			
+    		  </ul>
+            <% end%>
+    	</div>
+
+        <% end%>
+        <% end%>
+</div>
+</html>

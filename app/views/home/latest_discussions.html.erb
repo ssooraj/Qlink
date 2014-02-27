@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<link href="/assets/home.css" media="screen" rel="stylesheet" type="text/css" />        
+
+    <div id="container_box" style="padding-right:30px;">
+        <div id="post_box">
+            <table>
+                <%=  form_for :home, :html => {:multipart => true},:url => {:controller => 'home', :action => 'create'} do |f| %>
+                    <tr>
+                        <td>Whats on your mind?<%= f.text_field :description, :style=>"width: 760px; "%>
+                            <div class="span1" style="margin-top:8px;margin-left:0px;">
+                                Attach:
+                            </div>
+                            <div class="span4">      
+                                <ul class="nav nav-tabs" style="border-bottom:none;" >
+                                    <li style="text-align: center;"><%= link_to 'Image <i class="icon-picture"></i>'.html_safe, :controller=>"home", :action=>"upload", :option=>"image"%></li>             
+                                    <li style="text-align: center;"><%= link_to 'Video <i class="icon-film"></i>'.html_safe, :controller=>"home", :action=>"upload", :option=>"video"%></li>
+                                </ul>
+                            </div>                          
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <% if @option=="none"%>
+                            
+                            <% end%>
+
+                            <% if @option=="image"%>
+                            Upload Image&nbsp<%= f.file_field :image%>
+                            <% end%>
+
+                            <% if @option=="video"%>
+                            Upload Video&nbsp<%= f.file_field :video%>
+                            <% end%> 
+                        </td>
+
+                    </tr>
+                    <tr> 
+                        <td><%= f.submit "Post" ,'class'=>"btn btn-primary", :style=>"float: right;width: 120px;background:#3b5998;margin-top:-45px;"%></td>
+                    </tr>
+                <% end%>
+            </table>
+        </div>
+
+        <div class="span12" style="padding-right:25px;"">  
+            <ul class="nav nav-tabs" >
+
+                <li style="width: 190px; text-align: center;"><%= link_to '  Latest Posts  ', :controller => "home", :action => "home"%></li>             
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Blogs', :controller => "home", :action => "latest_blogs"%></li>
+                <li class="active" style="width: 190px; text-align: center;"><%= link_to 'Latest Discussions', :controller => "home", :action => "latest_discussions"%></li>
+                <li style="width: 190px; text-align: center;"><%= link_to 'Latest Events', :controller => "home", :action => "latest_events"%></li>
+            </ul>   
+        </div>
+        
+        <% if @updated_discussions.empty?%>
+
+        <% else %>
+        <div style="padding-top:40px;">                
+                <% @updated_discussions.each do |discussion| %>
+                <div id="user_posts">
+                    <% @user=Profile.find_by_user_id(discussion.user_id)%>
+
+                        <% if @user.image_url.nil?%>
+
+                            <img src="http://critterapp.pagodabox.com/img/user.jpg" style="margin-right: 10px; width:45px;height:45px;">
+
+                        <% else%>
+                            <%= image_tag @user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>
+                        &nbsp&nbsp<a style="text-decoration: none;"><%= link_to "#{@user.first_name}", :controller => "profiles", :action => "about", :id => @user.user_id %></a>  discusses 
+
+                        <div style="float: right;padding-left: 20px;color: black;font-size: 9pt;color:#4682B4;">
+
+                            <%= discussion.created_at.to_date.strftime("%B %d, %Y") %>&nbsp&nbsp&nbsp&nbspPosted <% @seconds_from_post_creation = (Time.now.to_i - Time.at(discussion.created_at).to_i)%>
+                            <% if (@seconds_from_post_creation>(60*60*24))%>
+                                <%= @days_from_creation = @seconds_from_post_creation / (60*60*24)%> days ago
+                            <% else if((@seconds_from_post_creation>(60*60))&&(@seconds_from_post_creation<(60*60*24)))%>
+                                <% @hours_from_creation = @seconds_from_post_creation/(60*60)%> 
+                                <% if @hours_from_creation==1%>
+                                    <%= @hours_from_creation%> hour ago
+                                <% else%>
+                                    <%= @hours_from_creation%> hours ago
+                                <% end%>
+                                <% else if((@seconds_from_post_creation<(60*60))&&(@seconds_from_post_creation>120))%>
+                                    <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minutes ago
+                                    <% else if((@seconds_from_post_creation>60)&&(@seconds_from_post_creation<120))%>
+                                        <%= @minutes_from_creation = @seconds_from_post_creation/(60)%> minute ago
+                                        <% else%>
+                                        just now
+                                        <% end%> 
+                                    <% end%>
+                                <%end%>
+                            <% end%>               
+                        </div> 
+
+                        <div class=well style="padding-left: 30px;margin-top: 20px;padding-top: 10px;">
+                            <h4> <%= link_to discussion.title, {:controller => "discussions", :action => "view_disc", :id => discussion.id }%></h4>
+                            <p> <%= discussion.content %> </p>
+                        </div>         
+                        <div class="row">
+                            <div class="span8">
+                                <p style="padding-left: 30px;">
+                                    <i class="icon-comment"></i> <a href="#" style="text-decoration: none; font-size: 8pt;">Comments</a>
+                                |   <i class="icon-share"></i> <a href="#" style="text-decoration: none;font-size: 8pt;"><%= discussion.kudos%>&nbsp Kudos</a>
+                                |   <i class="icon-tags"></i> <a href="#" style="text-decoration: none;font-size: 8pt;"><span class="label label-info">Tags : <%= discussion.tag%></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>   
+                <% end%>
+            </div>                  
+        <% end%>
+    </div>

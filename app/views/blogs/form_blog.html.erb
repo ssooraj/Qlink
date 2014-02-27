@@ -1,0 +1,93 @@
+
+ <link href="/assets/blogs.css" media="screen" rel="stylesheet" type="text/css" />
+ 
+    <div id="form_box">
+    <h4 style="margin-left: 200px;">New Blog</h4>
+
+     
+      <fieldset style="margin-left: 200px;margin-top: 20px;">  
+      <%= form_for :blog, :url => {:controller => 'blogs', :action => 'create'} do |f| %>
+
+      <div class="control-group">
+         <%=f.label :blog_header ,:class=>"control-label" %>
+         <div class="controls">
+         <%=f.text_field :title ,:autofocus => true, :id=>"textinput", :class=>"input-xlarge" %>
+        </div>
+      </div>
+      
+      <div class="control-group">
+         <%=f.label :content , :class=>"control-label"%>
+         <div class="controls">
+         <%=f.text_area :content, :rows => 4, :cols => 30 ,:id=>"textarea", :class => 'option-large'%>
+         </div>
+      </div>
+
+      
+      <p> <%= f.file_field :image %></p>
+      
+      <p> Or image URL<%= f.text_field :remote_image_url %> </p>
+      <div class="control-group">
+         <%=f.label :tag ,:class=>"control-label" %>
+         <div class="controls">
+         <%= f.select(:tag, ['Phone', 'Email','Website','Address', 'Occupation'], {},  :id=>"multiple",:class=>"select2", :multiple=>"multiple" ,:style=>"width:200px" ) %>
+        </div>
+      </div>
+        
+        
+      <%= f.submit "Post", 'class'=>"btn btn-primary"%> 
+
+      <% end %>
+    
+</div>
+<script>
+  $('.select2').select2({ placeholder : '' });
+</script>
+<% if @blogs_all.empty?%>
+<%else%>
+
+<div id ="Question">
+<div class = "well">
+    <%@blogs_all.reverse_each  do |blog| %>
+            <% user=Profile.find_by_user_id(blog.user_id)%>
+
+
+            <h4><strong><h1 style="padding-left: 20px;"> <%= link_to blog.title, {:controller => "blogs", :action => "view_blog", :id => blog.id }%></h1></a></strong></h4>
+            
+          <% if blog.image_url.nil?%>
+          <%else%> 
+          <div class="span2">
+
+          <a href="#" class="thumbnail">
+           <%= image_tag blog.image_url().to_s if blog.image?  %>
+          </a>
+        </div>
+
+          <% end%>
+
+            <div class="span6">      
+
+
+                <p style="padding-left: 20px;"><%= blog.content %></p>
+
+            </div>
+            
+                    <br> <br> <br> 
+                    <p><% if user.image_url.nil?%>
+                        <i class="icon-user"></i>
+                        <% else%><%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%>&nbsp<%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => blog.user_id }%>&nbsp </td>
+                   | <i class="icon-calendar"></i> Posted <%= Time.at(blog.created_at) %>
+                   | <i class="icon-share"></i> <%= blog.kudos%> Kudos
+                   | <i class="icon-tags"></i> Tags : <a href=""><span class="label label-info"> <%=blog.tag %> </span></a> 
+             </p>
+
+    <%end%>  
+      
+</div>
+
+</div>
+
+
+
+<% end%>
+

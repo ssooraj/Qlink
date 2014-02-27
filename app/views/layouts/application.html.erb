@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+  <title>QLink</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <div class="container-fluid">  
+        <div class="row-fluid" >
+      		<div class="well sidebar-nav" style="height: 80px;padding-left: 10px; padding-bottom: 10px; padding-top: 10px;background:transparent;border:none">
+            <div class="pull-left" style="width: 140px;height: 60px;margin-top:10px;margin-left:20px;">
+      			  <%=link_to image_tag("logo-beta.jpg"),{:controller=>"home", :action=>"home"}%> 	
+              </div>	    
+              <div class="pull-right" style="margin-top:25px;">
+                  <% profile=Profile.find_by_user_id(current_user.id)%>
+                  <% if profile.image_url.nil?%>
+                      <img src="http://critterapp.pagodabox.com/img/user.jpg" alt="" style="margin-right: 10px; width:30px;height:30px;-webkit-border-radius: 30px;-moz-border-radius: 30px;border-radius: 30px;border:2px solid #fff;">
+                  <% else%>
+                      <%= image_tag profile.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:30px;height:30px;-webkit-border-radius: 30px;-moz-border-radius: 30px;
+                        border-radius: 30px;border:2px solid #fff;"%>
+                  <% end%>
+
+                  <ul class="nav pull-right" style="margin-top: -25px;">
+
+                  <% user=Profile.find_by_user_id(current_user.id)%>
+                  <%if ((user.first_name.nil?)||(user.first_name==""))%>
+                      <li id="drop_down" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white;background-color:#3b5998;">Welcome User<b class="caret"></b></a>
+                  <%else%>
+                      <li id="drop_down" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white;background-color:#3b5998;"><%=user.first_name%>&nbsp<%=user.last_name%> <b class="caret"></b></a>
+                  <% end%>
+                        <ul id="drop_down_toggle" class="dropdown-menu">                           
+
+                            <li>
+                              <div>
+                                <i class="icon-wrench" style="margin:0 5px 0 10px;"></i><%= link_to 'Settings', set_password_users_path, :style=>"padding-right:30px; text-decoration:none;"%>
+                              </div>
+                            </li>
+                            <li class="divider"></li>
+                            
+                            <li>
+                              <div>
+                                <i class="icon-off" style="margin:0 5px 0 10px;"></i><%= link_to 'Logout', destroy_user_session_path, :method=>:delete, :style=>"padding-right:30px; text-decoration:none;" %>
+                              <div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>          
+              </div>
+              <div class="pull-left" style="height:40px;width:270px;margin-left:490px;margin-top:20px;background:white;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;">
+                 <%=  form_tag  search_profiles_path, :method=>:get do %> 
+                 <p style="height=30px;size=39px; maxlength=255px;padding-top:5px;"> 
+                  <%= text_field_tag :search, params[:search], :placeholder=>"Find Other QB's", :style=>"border:none;background-color:white;" %>
+                  <button type="submit" class="btn btn-primary" style="margin-top:-10px;background:#3b5998;"> <i class="icon-search icon-white" ></i></button></p>
+                  <% end%>
+              </div>
+         	</div>
+		    </div>
+
+        <% if (alert.nil? and notice.nil?)%>
+        <% else if alert.nil?%>
+          <div class="alert alert-success" style="text-align: center;">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <p ><%= notice %></p>
+          </div> 
+          <% else%>
+              <div class="alert alert-error" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <p ><%= alert %></p>
+            </div> 
+          <% end%>
+        <% end%>    
+                  
+
+      <div class="row-fluid" > 
+        <div class="span2" >  
+          <div class="well sidebar-nav" >
+            <ul class="nav nav-list" style="margin-left:20px;">                
+
+              <li><%= link_to 'Home', home_home_index_path%></li></br>
+              <li><%= link_to 'Profile', about_profiles_path%></li>  </br>
+              <li><%= link_to 'Blogs', top_blog_blogs_path%></li>  </br>
+              <li><%= link_to 'Discussions', top_disc_discussions_path%></li>  </br>
+              <li><%= link_to 'Events', firstpage_events_path%></li>  </br>      
+           </ul>  
+          </div> 
+        </div>     
+        		<%= yield %>			
+          <div class="span3" style="float: right; margin-left: 10px;width:200px;"> 
+              <div class="well sidebar-nav" style="height:230px;">  
+                  <div style="background:white;">
+                    <%= image_tag("Chat.Icon.JPG", :alt => "icon", :style=>"margin-left:10px;height:50px;width:50px;")%>
+                    <h5 style="float:right;margin-right:20px;margin-top:15px;color:#4682B4;">Chat List</h5>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</body>
+</html>

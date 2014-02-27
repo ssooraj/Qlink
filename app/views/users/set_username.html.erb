@@ -1,0 +1,14 @@
+<html>  
+<div id='forusername'>	
+<%= form_for :user, url: { action: 'change_username', controller: "users", method: :post} do |f| %>
+      	<p>
+        <%=f.label :username %>
+        <%=f.text_field :username , :value =>"#{@user.username}"  %>
+      	</p>	
+	<p>
+      <%= f.submit(type: 'submit', class: "btn btn-info", :value => "CHANGE USERNAME")  %>
+	</p>
+  <% end %>
+  </div>
+
+</html>

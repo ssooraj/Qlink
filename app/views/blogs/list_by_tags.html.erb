@@ -1,0 +1,44 @@
+ <link href="/assets/blogs.css" media="screen" rel="stylesheet" type="text/css" />
+<div id ="show">
+    <div class = "well">
+     Listing Discussions with  <%= @blogs_all[0].tag %> Tag
+    <%@blogs_all.each  do |blog| %>
+            <% user=Profile.find_by_user_id(blog.user_id)%>
+
+             <hr>  
+            <h4><strong><h1 style="padding-left: 20px;"> <%= link_to blog.title, {:controller => "blogs", :action => "view_blog", :id => blog.id }%></h1></a></strong></h4>
+          
+          <% if blog.image_url.nil?%>
+          <%else%> 
+          <div class="span2">
+          <a href="#" class="thumbnail">
+          <%= image_tag blog.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:100px;height:50px;" if blog.image?  %>
+          </a>
+        </div>
+          <% end%>
+            <div class="span6">      
+
+
+                <p style="padding-left: 20px;"><%= blog.content %></p>
+
+            </div>
+            
+                     
+                    <br> 
+                    <p><% if user.image_url.nil?%>
+                        <img src="http://critterapp.pagodabox.com/img/user.jpg" alt="" style="margin-right: 10px; width:50px;height:50px;-webkit-border-radius: 30px;-moz-border-radius: 30px;border-radius: 30px;border:2px solid #fff;">
+                        <% else%> <%= image_tag user.image_url(:thumb).to_s, :style=>"margin-right: 10px; width:45px;height:45px;"%>
+                        <% end%><%= link_to "#{user.first_name}", {:controller => "profiles", :action => "about", :id => blog.user_id }%> </td>
+                   | <i class="icon-calendar"></i> Posted <%= blog.created_at.to_date.strftime("%B %d, %Y") %>
+                   | <i class="icon-share"></i> <%= blog.kudos%> Kudos
+                   | <i class="icon-tags"></i> Tags : <a href=""><span class="label label-info"> <%=blog.tag %> </span></a> 
+             </p>
+           
+    <%end%>  
+      
+</div>
+
+</div>
+
+
+

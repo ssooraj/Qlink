@@ -1,0 +1,65 @@
+
+<link href="/assets/login.css" media="screen" rel="stylesheet" type="text/css" />
+<div id="container">
+
+  <div id="header">
+    Header
+  </div>
+
+  <div id="welcome">
+    <div class="span6"> <h2>About Us</h2>
+      <p align = "justify"> Qlink's mission is to make the world more open and connected.
+        Mission.Qlink's mission is to give people the power to share and make the world more open and connected.
+      </p> 
+    </div>
+  </div>
+
+
+  <div id="login_form">  
+
+    </br>
+    </br>
+    <table border= "0" cellspacing="40">
+      <tr>
+        <td>
+          <h3>Sign in</h3>
+        </td>
+      </tr>
+      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+      <tr>
+        <td>Email : </td>
+        <td>
+          <%= f.email_field :email, :autofocus => true %>
+        </td>
+      </tr>
+      <tr>
+        <td>Password : </td>
+        <td>
+          <%= f.password_field :password %>
+        </td>
+      </tr>
+
+      <% if devise_mapping.rememberable? -%>
+        <tr>
+          <td>
+            <%= f.check_box :remember_me %>
+            remember_me
+          </td>
+        </tr>
+      <% end -%>
+
+      <tr>
+        <td><%= f.submit "Sign in" %>
+        </td>
+    <% end %>
+        <td>
+        <%= render "devise/shared/links" %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="footer">
+    footer
+  </div>
+    
+</div>

@@ -1,0 +1,79 @@
+
+#container_box {
+	float:left;
+    margin-left:20px;
+    width: 810px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white; 
+    position: relative;
+	
+}
+#post_box {
+	margin-left:15px;
+}
+#kudos {
+	margin-top:-20px;
+	background-color: #e3e3e3;
+	height:20px;
+}
+
+#description {
+	border-radius: 0px;
+	-webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    padding-left: 20px;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+#display_fields {
+	
+	background-color: #e3e3e3;
+	 -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;  	
+	margin: 50px;
+	padding-bottom: 20px;
+	padding-top: 20px;
+	
+}
+
+
+#display_posts {
+	background-color: #e3e3e3;
+	 -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;  
+	padding-right: 10px;
+	margin-left:20px;
+	height: 500px;
+	overflow-y: scroll;
+}
+
+#user_posts {
+	padding: 30px;
+	background: white; 
+	margin-left:20px;
+	margin-top:10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+#videos_posted {
+	margin-top: 20px;
+	margin-left: 100px;
+}
+
+
+
+table {
+	width: 450px; 
+
+	margin: 10px;
+	font-size: 11pt;
+	color: 	#4682B4;
+}

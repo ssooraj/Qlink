@@ -1,0 +1,187 @@
+<!-- layout for first time users as welcome page -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Qlinkdemo</title>
+  <link href="/assets/welcomepage.css" media="screen" rel="stylesheet" type="text/css" />
+ <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+<!-- script for calling modal -->
+  <script type="text/javascript">
+
+        $(document).ready(function ()
+        {
+            <% if session[:@welcome] == "show"%>
+                $("#overlay").show();
+                $("#fill_details").fadeIn(300);
+                $("#overlay").unbind("click");
+            <% end %>
+
+            <% if session[:@welcome] == "password"%>
+                $("#overlay").show();
+                $("#set_password").fadeToggle(1000);
+                $("#overlay").unbind("click");
+            <% end %>   
+
+            <% if session[:@welcome] == "avatar"%>
+                $("#overlay").show();
+                $("#add_picture").fadeToggle(1000);
+                $("#overlay").unbind("click");
+            <% end %>   
+
+            <% if session[:@welcome] == "contacts"%>
+                $("#overlay").show();
+                $("#import_contacts").fadeToggle(1000);
+                $("#overlay").unbind("click");
+            <% end %>      
+        });
+
+         
+    </script>
+</head>
+<body>
+    <div id="container_for_welcome">
+        <div id="header_for_welcome">
+            <%= image_tag("logo (2).jpg", :alt => "logo", 'class' => "style_image_for_welcome") %>
+            <div class="pull-right">
+                <ul class="nav pull-right" style="padding-top: 15px;">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: black;"><b>Signed in as <%=@user.email%></b><b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">                           
+                            <li>
+                                <div><i class="icon-off"></i><%= link_to 'Logout', destroy_user_session_path, :method=>:delete, :style=>"padding-right:30px; text-decoration:none;" %>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div> 
+        </div>
+
+        <% if (alert.nil? and notice.nil?)%>
+
+
+<!-- for showing alert as errors and success -->
+        <% else if alert.nil?%>
+            <div class="alert alert-success" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4><%= notice %></h4>
+            </div> 
+            <% else%>
+                <div class="alert alert-error" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4><%= alert %></h4>
+                </div> 
+            <% end%>
+        <% end%>
+        <%= yield %> 
+        
+    </div>
+
+    <div id="overlay" class="web_dialog_overlay">
+        
+    </div>
+
+
+  <!-- modal div for first time users to fill user profile -->
+
+    <div id="fill_details" class="web_dialog">
+        <h3>Tell us about yourself</h3>
+        <%=  form_for :profile, :url => {:controller => 'profiles', :action => 'fill_details'} do |f| %>
+                <!-- Text input-->
+            <fieldset style="margin-left:40px;">
+                
+                    <p style="fontfont-family:'Arial Black', Gadget, sans-serif;
+                    font-size: 18px;color:white;"><b>First Name</b></p>
+                    <div class="controls">
+                        <%= f.text_field :first_name, :autofocus => true, :id=>"textinput", :value => "#{@user_profile_info.first_name}", :class=>"input-large" %>
+                    </div>
+                
+                <!-- Text input-->
+                <p style="fontfont-family:'Arial Black', Gadget, sans-serif;
+                    font-size: 18px;color:white;"><b>Last Name</b></p>
+                    <div class="controls">
+                        <%= f.text_field :last_name , :autofocus => true, :id=>"textinput", :value => "#{@user_profile_info.last_name}", :class=>"input-large" %>
+                    </div>
+                
+
+                <p style="fontfont-family:'Arial Black', Gadget, sans-serif;
+                    font-size: 18px;color:white;"><b>Date Of Birth</b></p>
+                    <div class="controls">
+                        <%= f.text_field :date_of_birth, 'data-behaviour' => 'datepicker' %>
+                    </div>
+                
+                <p style="fontfont-family:'Arial Black', Gadget, sans-serif;
+                    font-size: 18px;color:white;"><b>Gender</b></p>
+                    <div class="controls">
+                        <%= f.select :gender, [['Male','male'],['Female','female']] %> 
+                    </div>
+                
+                <p style="fontfont-family:'Arial Black', Gadget, sans-serif;
+                    font-size: 18px;color:white;"><b>Location</b></p>
+                    <div class="controls">                     
+                        <%= f.text_field :place, :autofocus => true, :id=>"textinput", :class=>"input-large" %>
+                    </div>
+                
+                 
+                <%= f.submit "Update", :id=>"submit", :class=>"btn btn-success", 'data-loading-text'=>"Updating..."%>
+            </fieldset>
+        <% end %>
+    </div>
+
+
+
+    <!-- modal div for first time users to add profile picture -->
+    <div id="add_picture" class="web_dialog">
+        <h3>Add a Profile Picture </h3>
+        <%=  form_for :profile, :url => {:controller => 'profiles', :action => 'add_picture'} do |f| %>
+                <!-- Text input-->
+            <fieldset style="margin-left:40px;">
+                <p>
+                    <%= f.file_field :image %>
+                </p>
+                    
+                <%= f.submit "Update", :id=>"submit", :class=>"btn btn-success", 'data-loading-text'=>"Updating...", :style=>"margin-left: 0px;"%>
+            </fieldset>
+        <% end %> 
+        <div id="btnSkip">
+            <%= button_to "Skip for now",skip_add_profile_picture_users_path, :method => "get", 'class'=>"btn btn-danger" %>
+        </div>  
+    </div>
+
+
+
+<!-- modal div for first time users to set user password -->
+    <div id="set_password" class="web_dialog">
+        <h3> Reset password for your Q-Link account </h3>
+        <%=  form_for :user, :url => {:controller => 'users', :action => 'reset_password'} do |f| %>
+                <!-- Text input-->
+            <fieldset style="margin-left:40px;">
+                <p style="fontfont-family:'Arial Black', Gadget, sans-serif;
+                    font-size: 18px;color:white;"><b>Reset Password</b></p>
+                    <div class="controls">
+                        <%= f.password_field :password , :autofocus => true, :id=>"textinput", :class=>"input-large" %>
+                    </div>
+                
+                <%= f.submit "RESET", :id=>"submit", :class=>"btn btn-success", :style=>"margin-left:0px;"%>
+            </fieldset>
+        <% end %> 
+    </div>
+
+
+<!-- modal div for first time users to import contacts-->
+    <div id="import_contacts" class="web_dialog" style="text-align:center;">
+        <h3 >You can import your contacts from your account</h3>
+        <div id="btnImport">
+            <%= button_to "Import Contacts", "/contacts/gmail", :method => "get", 'class'=>"btn btn-success" %>
+        </div>
+        <div id="btnSkip">
+            <%= button_to "Skip for now",skip_import_contacts_users_path, :method => "get", 'class'=>"btn btn-danger" %>
+        </div>
+    </div>
+</body>
+</html>

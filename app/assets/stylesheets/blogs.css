@@ -1,0 +1,88 @@
+
+#form_box
+  {
+    float:left;
+    margin-left:20px;
+    height: auto;
+    width: 800px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white; 
+    position: relative;
+   -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; 
+
+  }
+
+#Question
+  {
+    position : absolute;
+    margin-top: 520px;
+    margin-left :220px;
+    border-style:none;
+    border-width:1px;
+    text-align: left;
+    padding : 10px;
+    width: 800px;
+    border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white; 
+
+     font-size:16px;
+  }
+#insideShow
+{
+    height:auto;
+    padding-bottom: 5px;
+}
+.option-large {
+  height: 100px !important;
+
+}
+
+.option-large-comment {
+  margin-left: 0px;
+  height: 100px !important;
+  width:500px;
+  
+}
+#show
+  {
+     position:absolute;
+     float:left;
+     left : 232px;
+     height:auto;
+     border-style:none;
+    border-width:1px;
+    text-align: left;
+    padding : 10px;
+    width :800px;
+     font-size:16px;
+     border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white;
+  }
+
+#answer
+ {
+    float:left;
+    position: relative;
+    margin-top: 330px;
+     margin-left:30px;
+    border-style:none;
+    border-width:1px;
+    text-align: left;
+    padding : 10px;
+    width :800px;
+    font-size:16px;
+    border:2px solid #e3e3e3;
+    color:#333;
+    cursor:hand;
+    background-color:white;
+ }
